@@ -6,6 +6,8 @@ class Player:
     bow_dice = 10
     sword_dice = 8
     max_life_points = 12
+    sword_bonus = 0
+    bow_bonus = 0
 
     def __init__(self, name):
         self.name = name
@@ -14,7 +16,7 @@ class Player:
         self._weight = randint(70, 90)
 
     def __repr__(self):
-        return self.name + " the " +self.__class__.__name__
+        return self.name + " the " + self.__class__.__name__
 
     def roll_dices(self):
         dices = [["magic", randint(1, self.magic_dice)], ["bow", randint(1, self.bow_dice)],
@@ -24,9 +26,14 @@ class Player:
     def attack(self):
         dices = self.roll_dices()
         dices = sorted(dices, key=lambda x: x[1], reverse=True)
-        return dices[0]
+        weapon,dmgs =dices[0]
+        if weapon == "sword":
+            dmgs += self.sword_bonus
+        if weapon == "bow":
+            dmgs += self.bow_bonus
+        return weapon, dmgs
 
-    def defend(self,weapon,dmgs):
+    def defend(self,weapon, dmgs):
         defend = dict(self.roll_dices())
         defend = defend[weapon]
         if defend < dmgs :
@@ -66,16 +73,11 @@ class Warrior(Player):
             dmgs += bonus
 
         return {"weapon": weapon, "bonus": bonus, "dmgs": dmgs}
-    # def __repr__(self):
-    #     return self.name + " the " + Warrior.__name__
 
 
 class Archer(Player):
     magic_dice = 10
     bow_dice = 12
-
-    # def __repr__(self):
-    #     return self.name + " the " + Archer.__name__
 
     def attack(self):
         weapon, dmgs = super().attack()
@@ -107,3 +109,35 @@ class Wizard(Player):
             bonus += (self.height-170) % 3
             dmgs += bonus
         return {"weapon": weapon, "bonus": bonus, "dmgs": dmgs}
+
+
+class Dwarf:
+    sword_bonus = 2
+
+
+class Elf:
+    bow_bonus = 2
+
+
+class ElfWizard(Elf, Wizard):
+    pass
+
+
+class ElfWarrior(Elf, Warrior):
+    pass
+
+
+class ElfArcher(Elf, Archer):
+    pass
+
+
+class DwarfWizard(Dwarf,Wizard):
+    pass
+
+
+class DwarfWarrior(Dwarf,Warrior):
+    pass
+
+
+class DwarfArcher(Dwarf,Archer):
+    pass
