@@ -13,7 +13,7 @@ def main():
         defender = random.choice(character)
 
     atk = attacker.attack()
-    
+
     print(str(attacker) + " use " + atk["weapon"] + " and make "+str(atk["dmgs"])+" dmgs whose " + str(atk["bonus"])+ " attack bonus " )
     print(str(defender) + " defend with " +atk["weapon"] + " and block " + str(defender.defend(atk["weapon"], atk["dmgs"])) + " dmgs")
     print(str(defender) + " has "+ str(defender.current_life)+" HP")

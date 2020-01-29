@@ -11,9 +11,10 @@ class Player:
 
     def __init__(self, name):
         self.name = name
-        self.current_life = self.max_life_points
+        self._current_life = self.max_life_points
         self._height = randint(170, 190)
         self._weight = randint(70, 90)
+
 
     def __repr__(self):
         return self.name + " the " + self.__class__.__name__
@@ -56,6 +57,18 @@ class Player:
         self._weight = value
 
     weight = property(get_weight,set_weight)
+
+    def get_currentlife(self):
+        return self._current_life
+
+    def set_currentlife(self,value):
+        if value <= 0 :
+            self._current_life = 0
+        else:
+            self._current_life = value
+
+    current_life=property(get_currentlife,set_currentlife)
+
 
 
 class Warrior(Player):
